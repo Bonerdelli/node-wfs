@@ -130,6 +130,15 @@ operations.forEach(function(operation) {
       debug('generated xml for operation "' + operation + '"', xml);
       debug('making request to: ' + opts.url);
 
+      // Simple HTTP authentication
+      if (opts.userName && opts.password) {
+        requestOpts.auth = {
+          'user': opts.userName,
+          'pass': opts.password,
+          'sendImmediately': true
+        };
+      }
+
       request.post(requestOpts, function(err, response, body) {
         if (response && (! reStatusOK.test(response.statusCode))) {
           err = new Error('Received status code "' + response.statusCode +
